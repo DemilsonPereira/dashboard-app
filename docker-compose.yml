@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: antoniopapa1991/frontend
+    container_name: dashboard
+    ports:
+      - 8080:80
+    depends_on:
+      - backend
+      - db
+    networks:
+      - laravel-admin
+
+  backend:
+    container_name: dashboard-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+    networks:
+      - laravel-admin
+
+  db:
+    image: mysql:5.7.22
+    container_name: dashboard-db
+    environment:
+      MYSQL_DATABASE: admin
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./storage/dbdata:/var/lib/mysql
+    ports:
+      - 3306:3306
+    depends_on:
+      - backend
+    networks:
+      - laravel-admin
+
+networks:
+  laravel-admin:
+    driver: bridge
