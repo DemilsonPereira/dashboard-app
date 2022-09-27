@@ -13,7 +13,7 @@ services:
       - laravel-admin
 
   backend:
-    container_name: dashboard-app
+    container_name: dashboard-api
     build:
       context: .
       dockerfile: Dockerfile
